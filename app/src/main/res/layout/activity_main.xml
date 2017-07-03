@@ -5,11 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context="com.hug.elasticview.MainActivity">
 
-    <com.hug.elasticview.ElasticView
+    <com.hug.elasticlibrary.ElasticView
         android:id="@+id/elasticview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        />
 
 </FrameLayout>

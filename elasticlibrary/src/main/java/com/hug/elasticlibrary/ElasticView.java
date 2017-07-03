@@ -1,7 +1,8 @@
-package com.hug.elasticview;
+package com.hug.elasticlibrary;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,13 +22,12 @@ public class ElasticView extends View {
 
     private Path mPath;
     private Paint mPaint;
-    private Paint point;
     private Paint text;
-    private float maxRadius = 22f;
-    private float minRadius = 10f;
-    private float mRadius = 22f;
+    private float maxRadius;
+    private float minRadius;
+    private float mRadius;
     private Point mMovingCircle;
-    private float maxLength = 200;
+    private float maxLength;
     private int count = 100;
 
     private ValueAnimator animator;
@@ -35,7 +35,8 @@ public class ElasticView extends View {
     private boolean cleaned = false;
     private boolean readyClear = false;
     private boolean canMove = false;
-    private int mColor = Color.RED;
+    private int mColor;
+    private int textColor;
     private UnreadMsgDotRemovedListener unreadMsgDotRemovedListener;
 
     public interface UnreadMsgDotRemovedListener {
@@ -43,28 +44,23 @@ public class ElasticView extends View {
     }
 
     public ElasticView(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public ElasticView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, 0);
-        init();
+        this(context, attrs, 0);
     }
 
     public ElasticView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context,attrs);
     }
 
-    private void init() {
+    private void init(Context context,AttributeSet attrs) {
+        initAttrs(context,attrs);
         mMovingCircle = new Point();
         mMovingCircle.x = 0;
         mMovingCircle.y = 0;
-
-        point = new Paint();
-        point.setColor(Color.DKGRAY);
-        point.setTextSize(30);
-        point.setStrokeWidth(5);
-        point.setStrokeCap(Paint.Cap.ROUND);
 
         mPaint = new Paint();
         mPaint.setColor(mColor);
@@ -75,7 +71,19 @@ public class ElasticView extends View {
         text.setTextAlign(Paint.Align.CENTER);
         text.setTextSize(23);
         text.setFakeBoldText(true);
-        text.setColor(Color.WHITE);
+        text.setColor(textColor);
+    }
+
+    private void initAttrs(Context context,AttributeSet attrs) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(
+                attrs, R.styleable.ElasticView, 0, 0);
+        mColor = typedArray.getColor(R.styleable.ElasticView_color,Color.RED);
+        maxRadius = typedArray.getFloat(R.styleable.ElasticView_maxRadius,22f);
+        minRadius = typedArray.getFloat(R.styleable.ElasticView_minRadius,8f);
+        maxLength = typedArray.getFloat(R.styleable.ElasticView_maxLength,200f);
+        count = typedArray.getInt(R.styleable.ElasticView_count,0);
+        textColor = typedArray.getColor(R.styleable.ElasticView_textColor,Color.WHITE);
+
     }
 
     private void initAnimation() {
@@ -83,8 +91,8 @@ public class ElasticView extends View {
         final int y = mMovingCircle.y;
         final int i = x > y ? x : y;
         animator = ValueAnimator.ofInt(i, 0);
-        animator.setDuration(300);
-        animator.setInterpolator(new OvershootInterpolator(4f));
+        animator.setDuration(200);
+        animator.setInterpolator(new OvershootInterpolator(3f));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -125,7 +133,7 @@ public class ElasticView extends View {
                     float x = mRadius * (float) Math.cos(a);
                     float y = mRadius * (float) Math.sin(a);
                     mPath.moveTo(x, -y);
-                    mPath.quadTo(startx / 2, starty / 2, x + startx, -y + starty);
+                    mPath.quadTo(startx / +2, starty / 2, x + startx, -y + starty);
                     mPath.lineTo(-x + startx, y + starty);
                     mPath.quadTo(startx / 2, starty / 2, -x, y);
                     mPath.lineTo(x, -y);
@@ -207,4 +215,8 @@ public class ElasticView extends View {
         postInvalidate();
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(2 * (int) maxRadius,2 * (int) maxRadius);
+    }
 }

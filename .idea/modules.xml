@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ElasticView.iml" filepath="$PROJECT_DIR$/ElasticView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/elasticlibrary/elasticlibrary.iml" filepath="$PROJECT_DIR$/elasticlibrary/elasticlibrary.iml" />
     </modules>
   </component>
 </project>

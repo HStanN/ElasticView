@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ElasticView">
+        <attr name="color" format="color"/>
+        <attr name="maxRadius" format="float"/>
+        <attr name="minRadius" format="float"/>
+        <attr name="maxLength" format="float"/>
+        <attr name="textColor" format="color"/>
+        <attr name="count" format="integer"/>
+    </declare-styleable>
+</resources>
