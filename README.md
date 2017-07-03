@@ -33,5 +33,5 @@ compile 'com.hstan.view:elasticlibrary:1.0.0'
   ```xml
   android:clipChildren="false"
   ```
-  
+### 后续会添加一个放开后爆炸的动画效果，苦于自己没有PS功底，只能找找朋友做（手动擦汗）
   
