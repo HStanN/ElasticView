@@ -16,6 +16,7 @@ import android.view.animation.OvershootInterpolator;
 
 /**
  * Created by HStan on 2017/6/27.
+ *
  */
 
 public class ElasticView extends View {
@@ -124,7 +125,7 @@ public class ElasticView extends View {
                     readyClear = false;
                     float startx = mMovingCircle.x;
                     float starty = mMovingCircle.y;
-                    double a = 0;
+                    double a;
                     if (starty < 0) {
                         a = Math.atan(startx / starty) + Math.PI;
                     } else {
