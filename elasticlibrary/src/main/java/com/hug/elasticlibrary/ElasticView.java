@@ -84,6 +84,7 @@ public class ElasticView extends View {
         maxLength = typedArray.getFloat(R.styleable.ElasticView_maxLength,200f);
         count = typedArray.getInt(R.styleable.ElasticView_count,0);
         textColor = typedArray.getColor(R.styleable.ElasticView_textColor,Color.WHITE);
+        typedArray.recycle();
 
     }
 
@@ -163,12 +164,14 @@ public class ElasticView extends View {
                         ey < maxRadius &&
                         ey > -maxRadius) {
                     canMove = true;
+                    getParent().requestDisallowInterceptTouchEvent(true);
                 } else {
                     canMove = false;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (canMove) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
                     float currentRadius = maxRadius * (float) (1 - (Math.sqrt(ex * ex + ey * ey) / maxLength));
                     mRadius = currentRadius < minRadius ? minRadius : currentRadius;
                     update((int) ex, (int) ey);
@@ -194,6 +197,31 @@ public class ElasticView extends View {
 
     public void setUnreadMsgDotRemovedListener(UnreadMsgDotRemovedListener unreadMsgDotRemovedListener) {
         this.unreadMsgDotRemovedListener = unreadMsgDotRemovedListener;
+    }
+
+    public void setMaxRadius(float maxRadius){
+        this.maxRadius = maxRadius;
+        postInvalidate();
+    }
+
+    public void setMinRadius(float minRadius){
+        this.minRadius = minRadius;
+        postInvalidate();
+    }
+
+    public void setMaxLength(float maxLength){
+        this.maxLength = maxLength;
+        postInvalidate();
+    }
+
+    public void setTextColor(int textColor){
+        this.textColor = textColor;
+        postInvalidate();
+    }
+
+    public void setColor(int color){
+        mColor = color;
+        postInvalidate();
     }
 
     public void setUnReadCount(int count) {
